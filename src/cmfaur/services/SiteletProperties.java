@@ -85,6 +85,7 @@ public class SiteletProperties extends Model implements Serializable {
 			cmfaur.annotations.Cache cache = clazz.getAnnotation(cmfaur.annotations.Cache.class);
 			if (cache == null) {
 				disableCache();
+				return;
 			}
 			cacheExpirationInSeconds = cache.expirationInSeconds();
 			cacheEnabled = cache.enabled();

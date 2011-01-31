@@ -1,9 +1,9 @@
 package cmfaur;
 
+import mvcaur.Router;
 import cmfaur.controller.AdminController;
 import cmfaur.services.CrudServiceImpl;
 import cmfaur.services.SiteletServiceImpl;
-import mvcaur.Router;
 
 public class AdminRouter extends Router {
 
@@ -14,5 +14,6 @@ public class AdminRouter extends Router {
 		route("/cmfaur/crud").throughServlet(CrudServiceImpl.class);
 		route("/cmfaur/sitelets").throughServlet(SiteletServiceImpl.class);
 	}
+	
 
 }

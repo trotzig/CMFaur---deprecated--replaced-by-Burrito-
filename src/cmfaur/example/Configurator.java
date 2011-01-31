@@ -11,6 +11,5 @@ public class Configurator extends cmfaur.Configurator {
 		addLinkable(User.class);
 		addSitelet(HelloWorldSitelet.class);
 	}
-	 
 	
 }

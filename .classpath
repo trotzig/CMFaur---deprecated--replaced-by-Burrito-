@@ -9,7 +9,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lucene-core-2.9.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lucene-snowball.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-incubator-20100204-r1747.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mvcaur-0.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mvcaur-xxx.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/mvcaur"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

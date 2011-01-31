@@ -20,6 +20,23 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</filter-mapping>
 	
 	
+	
+	<filter>
+		<filter-name>routingFilter</filter-name>
+		<filter-class>mvcaur.RouterFilter</filter-class>
+		<init-param>
+			<param-name>router</param-name>
+			<param-value>cmfaur.example.ExampleRouter</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<!-- This filter mapping is required by Cmfaur -->
+		<filter-name>routingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
 	<listener>
 		<!-- Initializer for Cmfaur -->
 		<listener-class>cmfaur.example.Configurator</listener-class>

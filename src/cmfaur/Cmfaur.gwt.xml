@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='cmfaur'>
+	<!-- Inherit the core Web Toolkit stuff.                        -->
+	<inherits name='com.google.gwt.user.User' />
+
+	<!-- Inherit default theme -->
+	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<!-- Other module inherits                                      -->
+
+	<!-- This module contains admin widgets: -->
+	<inherits name="com.kanal5.play.Kanal5Widgets" />
+	
+	<stylesheet src="admin.css" />
+	
+	<!-- Specify the app entry point class.                         -->
+	<entry-point class='cmfaur.client.Cmfaur' />
+
+	<!-- Specify the paths for translatable code                    -->
+	<source path='client' />
+	<source path='shared' />
+
+</module>

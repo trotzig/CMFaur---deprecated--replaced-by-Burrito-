@@ -137,7 +137,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 	private Widget createCommandsArea() {
 		HorizontalPanel hp = new HorizontalPanel();
 		this.bold = new ToggleButton(new Image(
-				"/admin/images/format-text-bold.png"), new ClickHandler() {
+				GWT.getModuleBaseURL() + "images/format-text-bold.png"), new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				formatter.toggleBold();
@@ -147,7 +147,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 		hp.add(bold);
 
 		this.italics = new ToggleButton(new Image(
-				"/admin/images/format-text-italic.png"), new ClickHandler() {
+				GWT.getModuleBaseURL() + "images/format-text-italic.png"), new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				formatter.toggleItalic();
@@ -157,7 +157,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 		hp.add(italics);
 
 		this.strikethrough = new ToggleButton(new Image(
-				"/admin/images/format-text-strikethrough.png"),
+				GWT.getModuleBaseURL() + "images/format-text-strikethrough.png"),
 				new ClickHandler() {
 
 					public void onClick(ClickEvent event) {
@@ -168,7 +168,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 		hp.add(strikethrough);
 
 		this.underline = new ToggleButton(new Image(
-				"/admin/images/format-text-underline.png"), new ClickHandler() {
+				GWT.getModuleBaseURL() + "images/format-text-underline.png"), new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				formatter.toggleUnderline();
@@ -178,7 +178,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 		hp.add(underline);
 
 		PushButton image = new PushButton(new Image(
-				"/admin/images/image-x-generic.png"), new ClickHandler() {
+				GWT.getModuleBaseURL() + "images/image-x-generic.png"), new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				imagePicker.center();

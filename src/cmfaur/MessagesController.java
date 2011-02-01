@@ -29,7 +29,7 @@ public class MessagesController implements Controller<Map<String, String>> {
 		try {
 			PropertyResourceBundle rb = new PropertyResourceBundle(
 					new InputStreamReader(this.getClass().getResourceAsStream(
-							"/CmfaurMessages.properties"), "UTF-8"));
+							"/cmfaur/CmfaurMessages.properties"), "UTF-8"));
 			return rb;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

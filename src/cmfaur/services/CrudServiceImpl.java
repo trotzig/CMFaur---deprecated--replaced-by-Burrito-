@@ -56,20 +56,28 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.kanal5.play.client.widgets.panels.table.ItemCollection;
 import com.kanal5.play.client.widgets.panels.table.PageMetaData;
 
-public class CrudServiceImpl extends RemoteServiceServlet implements CrudService {
+/**
+ * Service that deals with all the serialization/deserialization of objects from
+ * and to admin.
+ * 
+ * Basically: a _lot_ of reflection.
+ * 
+ * @author henper
+ * 
+ */
+public class CrudServiceImpl extends RemoteServiceServlet implements
+		CrudService {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private SearchManager searchManager = SearchManager.get();
-	
 
 	public List<CrudNameIdPair> getListValues(String entityName) {
 		Class clazz = extractClass(entityName);
 		List<Model> all;
 		try {
 			all = (List<Model>) clazz.getMethod("listValues").invoke(null);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			all = Model.all(clazz).fetch();
 		}
 		List<CrudNameIdPair> result = new ArrayList<CrudNameIdPair>(all.size());
@@ -208,7 +216,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		if (filter != null) {
 			return search(clazz, filter, p);
 		}
-		
+
 		// Prepare query object
 		Query<Model> q = Model.all(clazz);
 
@@ -224,14 +232,15 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			q.order(order);
 		}
 		// If a filter is available, use it!
-//		if (filter != null) {
-//			// Using a technique found here:
-//			// http://code.google.com/appengine/docs/python/datastore/queriesandindexes.html#Introducing_Indexes
-//			q.filter(filter.getName() + " >=", filter.getValue());
-//			q.filter(filter.getName() + " <", filter.getValue() + "\ufffd");
-//		}
-		List<Model> entities = q.fetch(p.getItemsPerPage(), (int) p
-				.getRangeStart());
+		// if (filter != null) {
+		// // Using a technique found here:
+		// //
+		// http://code.google.com/appengine/docs/python/datastore/queriesandindexes.html#Introducing_Indexes
+		// q.filter(filter.getName() + " >=", filter.getValue());
+		// q.filter(filter.getName() + " <", filter.getValue() + "\ufffd");
+		// }
+		List<Model> entities = q.fetch(p.getItemsPerPage(),
+				(int) p.getRangeStart());
 
 		// Check if there is a next page by fetching the first entity from the
 		// next page:
@@ -247,12 +256,14 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 
 	private CrudEntityList search(Class<? extends Model> clazz, String filter,
 			PageMetaData<String> p) {
-		
-		ItemCollection<SearchEntry> entries = searchManager.search(clazz, filter, p);
+
+		ItemCollection<SearchEntry> entries = searchManager.search(clazz,
+				filter, p);
 		List<Model> entities = new ArrayList<Model>();
 		for (SearchEntry entry : entries) {
 			Model entity = extractEntity(entry.ownerId, null, clazz);
-			if (entity != null) entities.add(entity);
+			if (entity != null)
+				entities.add(entity);
 		}
 		CrudEntityList collection = new CrudEntityList();
 		collection.setItems(convertEntitesToCrudEntityDescriptions(entities));
@@ -274,7 +285,9 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 
 	private Long extractIDFromEntity(Model entity) {
 		try {
-			return (Long) entity.getClass().getField("id").get(entity);
+			Field id = entity.getClass().getDeclaredField("id");
+			id.setAccessible(true);
+			return (Long) id.get(entity);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to get id field from entity", e);
 		}
@@ -284,7 +297,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		Class clazz = extractClass(desc.getEntityName());
 		Model entity = extractEntity(desc.getId(), null, clazz);
 		updateEntityFromDescription(entity, desc, clazz);
-		
+
 		if (desc.isNew()) {
 			entity.insert();
 		} else {
@@ -295,8 +308,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		return id;
 	}
 
-	private void updateSearchIndicies(Model entity,
-			Long databaseId) {
+	private void updateSearchIndicies(Model entity, Long databaseId) {
 		searchManager.insertOrUpdateSearchEntry(entity, databaseId);
 	}
 
@@ -306,10 +318,14 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			try {
 				Object value = field.getValue();
 				if (field instanceof EmbeddedListField) {
-					value = deserializeEmbedded(((EmbeddedListField) field).getEmbeddedClassName(), (List<CrudEntityDescription>)field.getValue());
+					value = deserializeEmbedded(
+							((EmbeddedListField) field).getEmbeddedClassName(),
+							(List<CrudEntityDescription>) field.getValue());
 				}
-				clazz.getField(field.getName()).set(entity, value);
-				
+				Field privField = clazz.getDeclaredField(field.getName());
+				privField.setAccessible(true);
+				privField.set(entity, value);
+
 			} catch (Exception e) {
 				throw new RuntimeException("Failed to set field "
 						+ field.getName(), e);
@@ -317,7 +333,8 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		}
 	}
 
-	private List<String> deserializeEmbedded(String embeddedClassName, List<CrudEntityDescription> value) {
+	private List<String> deserializeEmbedded(String embeddedClassName,
+			List<CrudEntityDescription> value) {
 		List<String> result = new ArrayList<String>();
 		for (CrudEntityDescription desc : value) {
 			Class clazz;
@@ -329,7 +346,8 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 				String json = gson.toJson(entity, clazz);
 				result.add(json);
 			} catch (Exception e) {
-				throw new RuntimeException("Failed to instantiate class: " + embeddedClassName, e);
+				throw new RuntimeException("Failed to instantiate class: "
+						+ embeddedClassName, e);
 			}
 		}
 		return result;
@@ -342,7 +360,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 
 		return createEntityDescription(entityName, id, clazz, entity);
 	}
-	
+
 	public CrudEntityDescription describeEmbeddedObject(String embeddedClassName) {
 		try {
 			Class clazz = Class.forName(embeddedClassName);
@@ -351,11 +369,15 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("No such class: " + embeddedClassName, e);
 		} catch (InstantiationException e) {
-			throw new RuntimeException("Failed to create embedded object of type " + embeddedClassName, e);
+			throw new RuntimeException(
+					"Failed to create embedded object of type "
+							+ embeddedClassName, e);
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Failed to create embedded object of type " + embeddedClassName, e);
+			throw new RuntimeException(
+					"Failed to create embedded object of type "
+							+ embeddedClassName, e);
 		}
-		
+
 	}
 
 	private CrudEntityDescription createEntityDescription(String entityName,
@@ -383,6 +405,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 				// skip the id field
 				continue;
 			}
+			field.setAccessible(true);
 			CrudField crudField;
 			try {
 				crudField = createCrudField(field, entity);
@@ -396,7 +419,7 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 
 	private boolean okField(Field field) {
 		if ((field.getModifiers() & Modifier.TRANSIENT) == Modifier.TRANSIENT) {
-			//skip transient fields
+			// skip transient fields
 			return false;
 		}
 		if (field.isAnnotationPresent(Id.class)) {
@@ -416,8 +439,10 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			throws Exception {
 		CrudField crud = null;
 		Class clazz = field.getType();
+		field.setAccessible(true);
 		if (clazz == Date.class) {
-			crud = new DateField((Date) field.get(entity), field.isAnnotationPresent(ReadOnly.class));
+			crud = new DateField((Date) field.get(entity),
+					field.isAnnotationPresent(ReadOnly.class));
 		} else if (clazz == Boolean.class) {
 			crud = new BooleanField((Boolean) field.get(entity));
 		} else if (clazz == Long.class) {
@@ -437,12 +462,13 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			Type type = pType.getActualTypeArguments()[0];
 			if (field.isAnnotationPresent(EmbeddedBy.class)) {
 				EmbeddedBy embeddedBy = field.getAnnotation(EmbeddedBy.class);
-				crud = createEmbeddedListField(embeddedBy.value(), (List<String>)field.get(entity));
+				crud = createEmbeddedListField(embeddedBy.value(),
+						(List<String>) field.get(entity));
 			} else if (type.equals(Long.class)) {
 				String relatedEntityClass = field.getAnnotation(Relation.class)
 						.value().getName();
-				crud = new ManyToManyRelationField((List<Long>) field
-						.get(entity), relatedEntityClass);
+				crud = new ManyToManyRelationField(
+						(List<Long>) field.get(entity), relatedEntityClass);
 			} else if (type.equals(String.class)
 					&& field.isAnnotationPresent(Link.class)) {
 				crud = new LinkListField((List<String>) field.get(entity));
@@ -451,7 +477,8 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			} else {
 				throw new RuntimeException("Unknown list type: " + type);
 			}
-		} else if (clazz == String.class && field.isAnnotationPresent(ReadOnly.class)) {
+		} else if (clazz == String.class
+				&& field.isAnnotationPresent(ReadOnly.class)) {
 			StringField stringCrud = new StringField((String) field.get(entity));
 			stringCrud.setReadOnly(true);
 			crud = stringCrud;
@@ -502,17 +529,20 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		return crud;
 	}
 
-	private CrudField createEmbeddedListField(Class<?> type, List<String> jsonList) {
+	private CrudField createEmbeddedListField(Class<?> type,
+			List<String> jsonList) {
 		List<CrudEntityDescription> descs = new ArrayList<CrudEntityDescription>();
 		if (jsonList != null) {
 			for (String embedded : jsonList) {
 				Gson gson = new Gson();
 				Object overlay = gson.fromJson(embedded, type);
-				CrudEntityDescription desc = createEntityDescription(type.getName(), null, type, overlay);
+				CrudEntityDescription desc = createEntityDescription(
+						type.getName(), null, type, overlay);
 				descs.add(desc);
 			}
 		}
-		EmbeddedListField field = new EmbeddedListField(descs, ((Class)type).getName());
+		EmbeddedListField field = new EmbeddedListField(descs,
+				((Class) type).getName());
 		return field;
 	}
 
@@ -525,7 +555,8 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 			// Id -1 means get a description for a new object of the type
 			if (copyFromId != null) {
 				// the field values are to be copied from another object:
-				entity = (Model) Model.all(clazz).filter("id", copyFromId).get();
+				entity = (Model) Model.all(clazz).filter("id", copyFromId)
+						.get();
 				resetId(entity);
 			} else {
 				try {
@@ -567,5 +598,4 @@ public class CrudServiceImpl extends RemoteServiceServlet implements CrudService
 		return clazz;
 	}
 
-	
 }

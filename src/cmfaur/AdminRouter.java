@@ -3,8 +3,13 @@ package cmfaur;
 import mvcaur.Router;
 import cmfaur.controller.AdminController;
 import cmfaur.controller.VoidController;
+import cmfaur.render.MessagesRenderer;
+import cmfaur.render.SiteletAdminCSSRenderer;
 import cmfaur.services.CrudServiceImpl;
 import cmfaur.services.SiteletServiceImpl;
+
+import com.kanal5.play.server.blobstore.BlobServiceImpl;
+import com.kanal5.play.server.blobstore.BlobStoreServlet;
 
 public class AdminRouter extends Router {
 
@@ -15,6 +20,8 @@ public class AdminRouter extends Router {
 		route("/cmfaur/siteletadmin.css").through(VoidController.class).renderedBy(new SiteletAdminCSSRenderer());
 		route("/cmfaur/crud").throughServlet(CrudServiceImpl.class);
 		route("/cmfaur/sitelets").throughServlet(SiteletServiceImpl.class);
+		route("/cmfaur/blobService").throughServlet(BlobServiceImpl.class);
+		route("/blobstore/image").throughServlet(BlobStoreServlet.class);
 	}
 	
 

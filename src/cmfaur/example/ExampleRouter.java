@@ -9,7 +9,8 @@ public class ExampleRouter extends Router {
 
 	@Override
 	public void init() {
-		route("/").through(StartPageController.class).renderedBy("start.jsp");
+		route("/").through(StartPageController.class).renderedBy("/start.jsp");
+		route("/entry/{name}/{id:long}").through(BlogEntryController.class).renderedBy("/blogentry.jsp");
 	}
 	
 	@Override

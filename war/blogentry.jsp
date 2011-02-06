@@ -2,18 +2,19 @@
 <%@ taglib prefix="cmfaur" tagdir="/WEB-INF/tags/cmfaur" %>
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt"%>
-<layout:mainlayout pageTitle="Burrito CMF Demo">
+<layout:mainlayout pageTitle="Burrito CMF Demo - ${mvcaur.heading}">
 	
 	<div class="blog">
 		<div class="blog-inside">
-			<c:forEach items="${mvcaur}" var="entry" varStatus="entryStatus">
-				<h2><a href="${entry.url}"><c:out value="${entry.heading}"/></a></h2>
-				<p class="blog-entry-date">${entry.created}</p>
-				<p class="blog-entry-content">
-					${entry.content}
-				</p>
-			</c:forEach>
+			<h2><c:out value="${mvcaur.heading}"/></h2>
+			<p class="blog-entry-date">${entry.created}</p>
+			<p class="blog-entry-content">
+				${mvcaur.content}
+			</p>
+			<br/>
+			<p>
+				&laquo; Back to the <a href="/">entire blog</a>
+			</p>
 		</div>
 	</div>
 	<div class="side">
@@ -22,4 +23,6 @@
 			<cmfaur:siteletbox id="start-right"/>
 		</div>
 	</div>
+	
+	
 </layout:mainlayout>

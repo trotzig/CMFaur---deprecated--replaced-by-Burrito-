@@ -1,4 +1,4 @@
-package cmfaur;
+package cmfaur.render;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ public class SiteletAdminCSSRenderer implements Renderer {
 		resp.setCharacterEncoding("UTF-8");
 
 		InputStream in = this.getClass()
-				.getResourceAsStream("siteletadmin.css");
+				.getResourceAsStream("/cmfaur/siteletadmin.css");
 		byte[] b = new byte[1024];
 		int read;
 		while ((read = in.read(b)) != -1) {

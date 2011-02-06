@@ -89,6 +89,7 @@ public class SearchManager {
 		for (Field field : fields) {
 			if (field.isAnnotationPresent(SearchableField.class)) {
 				try {
+					field.setAccessible(true);
 					String text = (String) field.get(entity);
 					if (text != null) {
 						searchables.add(text);

@@ -18,8 +18,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<filter-name>adminRoutingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
+
+    <security-constraint>
+        <web-resource-collection>
+        	<web-resource-name>Admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/admin</url-pattern>
+            <url-pattern>/cmfaur/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 	
 	<filter>
 		<filter-name>routingFilter</filter-name>
@@ -35,6 +45,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<servlet>
+		<servlet-name>blobStoreUpload</servlet-name>
+		<servlet-class>com.kanal5.play.server.blobstore.BlobStoreUploadServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>blobStoreUpload</servlet-name>
+		<url-pattern>/admin/blobstore/upload</url-pattern>
+	</servlet-mapping>
 	
 	
 	<listener>

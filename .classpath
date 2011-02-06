@@ -5,11 +5,14 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/siena-0.7.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-1.6.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-kanal5play-1.0.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lucene-core-2.9.2.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lucene-snowball.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-incubator-20100204-r1747.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mvcaur-xxx.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-kanal5play-1.0.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-kanal5play-serverside-1.0.3.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/mvcaur"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

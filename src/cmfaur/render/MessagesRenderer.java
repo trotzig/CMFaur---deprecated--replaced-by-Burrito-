@@ -1,4 +1,4 @@
-package cmfaur;
+package cmfaur.render;
 
 import java.io.IOException;
 import java.io.PrintWriter;

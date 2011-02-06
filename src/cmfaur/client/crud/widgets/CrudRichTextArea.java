@@ -92,7 +92,7 @@ public class CrudRichTextArea extends Composite implements HasKeyDownHandlers {
 		imagePicker.addSaveHandler(new ImagePickerPopup.SaveHandler() {
 
 			public void saved(String value) {
-				formatter.insertImage("/images/view/" + value);
+				formatter.insertImage("/blobstore/image?key=" + value);
 			}
 		});
 		

@@ -1,15 +1,15 @@
 package cmfaur.example;
 
-import cmfaur.example.model.HelloWorldSitelet;
-import cmfaur.example.model.User;
+import cmfaur.example.model.BlogQuotes;
+import cmfaur.example.model.BlogEntry;
 
 public class Configurator extends cmfaur.Configurator {
 
 	@Override
 	protected void init() {
-		addCrudable(User.class);
-		addLinkable(User.class);
-		addSitelet(HelloWorldSitelet.class);
+		addCrudable(BlogEntry.class);
+		addLinkable(BlogEntry.class);
+		addSitelet(BlogQuotes.class);
 	}
 	
 }

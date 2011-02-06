@@ -11,6 +11,7 @@
 	<inherits name="com.kanal5.play.Kanal5Widgets" />
 	
 	<stylesheet src="admin.css" />
+	<script src="crudmessages.js"/>
 	
 	<!-- Specify the app entry point class.                         -->
 	<entry-point class='cmfaur.client.Cmfaur' />

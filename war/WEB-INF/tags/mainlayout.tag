@@ -17,7 +17,7 @@
 					<div class="top">
 						<h1>Burrito CMF Demo</h1>
 						<p>
-							This demo displays a simple blog. Access the admin area here: <a href="/admin">/admin</a>. Login as <i>burrito_cmf@hmamail.com</i>, password <i>burrito</i>
+							This demo displays a simple blog. Access the admin area here: <a href="/admin">/admin</a>. Login as <i>burrito_cmf@hmamail.com</i>, password <i>burritocmf</i>
 						</p>
 						<div class="clear-floats"></div>
 					</div>

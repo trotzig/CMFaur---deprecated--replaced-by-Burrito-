@@ -67,7 +67,10 @@ public class BlogEntry extends Model implements Linkable {
 		return content;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return heading;
+	}
 	
 		
 }

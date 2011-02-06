@@ -9,6 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.kanal5.play.client.widgets.blobstore.BlobStoreUploader;
 
@@ -19,6 +20,7 @@ public class ImagePickerPopup extends DialogBox {
 	}
 
 	private List<SaveHandler> saveHandlers = new ArrayList<SaveHandler>();
+	private VerticalPanel wrapper = new VerticalPanel();
 	private CrudMessages labels = GWT.create(CrudMessages.class);
 
 	/**
@@ -62,7 +64,14 @@ public class ImagePickerPopup extends DialogBox {
 				throw new RuntimeException(caught);
 			}
 		});
-		setWidget(form);
+		
+		if (strict) {
+			wrapper.add(new Label(height == 0 ? labels.requiredImageWidth(width) : labels.requiredImageSize(width, height)));
+		} else {
+			wrapper.add(new Label(labels.maximumImageSize(width, height)));
+		}
+		wrapper.add(form);
+		setWidget(wrapper);
 	}
 
 	public void addSaveHandler(SaveHandler saveHandler) {

@@ -26,24 +26,10 @@ public interface CrudMessages extends Messages {
 
 	String requiredImageSize(int width, int height);
 
-	String uploadingProgress();
 
 	String doUpload();
 
 	String uploadError(String clean);
-
-	String pickVideo();
-
-	String removeVideo();
-
-	String pasteIdHere();
-
-	String useVideoId();
-
-	String foundNoVideoWithId(Long videoId);
-
-	String orEnterAtLeastThreeCharactersToSearchForVideo();
-
 	String richText();
 
 	String rawHtml();
@@ -53,8 +39,6 @@ public interface CrudMessages extends Messages {
 	String maximize();
 
 	String link();
-
-	String video();
 
 	String pasteLinkHere();
 
@@ -69,8 +53,6 @@ public interface CrudMessages extends Messages {
 	String underline();
 
 	String insertLink();
-
-	String insertVideo();
 
 	String insertImage();
 
@@ -100,45 +82,12 @@ public interface CrudMessages extends Messages {
 
 	String entityAddedAndCanBeSelected();
 	
-	String clickToDeleteTag();
-
 	String add();
 
-	String allBlogEntries();
-
-	String newBlogEntry();
-
-	String publishBlogEntry();
-
-	String blogEntryHasBeenSaved();
-
-	String blogHeader();
-
-	String blogHeaderDesc();
-
-	String blogPublishDate();
-
-	String blogPublishDateDesc();
-
-	String blogContent();
-
-	String tags();
-
-	String blogTagsDesc();
-
-	String blog();
-
-	String blogDesc();
-
-	String blogEntry();
-
-	String entriesListDescription();
-
+	
 	String clone();
 
 	String mustAddImage();
-
-	String mustAddVideo();
 
 	String noEmbeddedItemsAdded(String embeddedTypeInPlural);
 
@@ -174,11 +123,6 @@ public interface CrudMessages extends Messages {
 
 	String youCanSearchFor(String commaSeparateFields);
 
-	String scheduleUpdateComplete();
+	String clickToDeleteTag();
 
-	String anErrorOccured(String errorMessage);
-
-	String wrongFileFormat();
-
-	String scheduleAdminIntro();
 }

@@ -1,11 +1,4 @@
-<!-- Indices written at Sun, 6 Feb 2011 15:47:03 UTC -->
+<!-- Indices written at Mon, 7 Feb 2011 10:22:04 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="SiteletProperties" ancestor="false" source="auto">
-        <property name="containerId" direction="asc"/>
-        <property name="order" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
